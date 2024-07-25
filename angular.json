@@ -23,10 +23,14 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": [],
-            "es5BrowserSupport": true
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/jquery/dist/jquery.slim.min.js",
+               "node_modules/popper.js/dist/popper.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -58,18 +62,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "the-riddle-of-wisdom:build"
+            "buildTarget": "the-riddle-of-wisdom:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "the-riddle-of-wisdom:build:production"
+              "buildTarget": "the-riddle-of-wisdom:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "the-riddle-of-wisdom:build"
+            "buildTarget": "the-riddle-of-wisdom:build"
           }
         },
         "test": {
@@ -132,5 +136,8 @@
       }
     }
   },
-  "defaultProject": "the-riddle-of-wisdom"
+  "defaultProject": "the-riddle-of-wisdom",
+  "cli": {
+    "analytics": false
+  }
 }

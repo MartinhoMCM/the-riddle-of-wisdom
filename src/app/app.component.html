@@ -1,20 +1,53 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
+<div class="main container mt-4">
+  <div id="heading" class="m-4"><h1>THE RIDDLE <em>OF</em> WISDOM</h1></div>
+  <div id="word"></div>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card menu-card">
+                    <div class="card-body">
+                        <h5 class="card-title">Menu</h5>
+                        <ul class="list-group">
+                          <li *ngFor="let category of categories; let i=index" 
+                          class="list-group-item" 
+                          [ngClass]="{'selected': indexSelected === i}"  
+                          (click)="selectedCategory(i)">{{ category | translate}}</li>
+                        </ul>                     
+                    </div>
+                    <div class="dropdown">
+                        <form  [formGroup]="form">
+                            <select class="states" formControlName="state">
+                                <option *ngFor="let state of states" [ngValue]="state" >
+                                    {{ state.name }}
+                                  </option>
+                            </select>                            
+                        </form>
+                      </div>    
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card game-card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{'game' | translate}}</h5>
+                        <span id="message">Good, let's mountain this <b>{{selectCategory}}</b> by each letter</span>
+                        <div>
+                            <span id="word">{{words}}</span><span id="dotted"[ngClass]="{'dotted':isHuman, 'notdotted':isAi }">⬤</span>
+                        </div>
+                        <span id="remainingGuess">You have ☼ guesses remaining.</span>
+                        <div id="guessedBuilt"> </div>
+                        <span id="onx">Type one character, only</span>
+                        <form action="guessChar">
+                           <div>
+                            <input id="input" type="text" minlength="1" maxlength="1" [(ngModel)]="guessChar" required >
+                           </div>
+                           <div>
+                            <input id="guess" type="button" class="btnx bg-lightx" [disabled]="guessChar.length===0" value="Entre!" (click)="startGame()">
+                           </div>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
-

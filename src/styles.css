@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+    margin: 0;
+    font-weight: 600;
+    box-sizing: border-box;
+    text-align: center;
+    color: darkslategrey;
+}
+body {
+    height: 100vh;
+    background-image: linear-gradient(to bottom right, lightblue, goldenrod);
+}

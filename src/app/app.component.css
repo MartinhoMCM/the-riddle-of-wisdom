@@ -1,0 +1,149 @@
+.main {
+    width: 100vmin;
+    height: 80vh;
+    border-radius: 24px;
+    background-image: linear-gradient(to bottom right, azure, aliceblue);
+}
+
+.menu-card{
+    width: 180px;
+    
+}
+
+.menu-card, .game-card{
+    min-height: 450px;
+    max-height: 600px;
+}
+h1 {
+    font-family: "Black Ops One", system-ui;
+    font-size: 325%;
+}
+@media screen and (max-width: 725px) { h1 { font-size: 275%; } }
+@media screen and (max-width: 640px) { h1 { font-size: 200%; } }
+
+em {
+    font-family: "Dancing Script", cursive;
+    font-weight: 700;
+}
+#message, #remainingGuess {
+    font-size: 105%;
+}
+
+#remainingGuess{
+    margin-top: 16px;
+    display: none;
+}
+
+#input {
+    font-size: 200%;
+    width: 14%;
+    text-align: center;
+    border-radius: 8px;
+    border: 3.25px solid turquoise;
+}
+#guessedBuilt, #word, #guess, #dotted {
+    color: rgb(64, 181, 173);
+    font-size: 150%;
+    font-weight: 700;
+}
+input[type="button"] {
+    margin-top: 8px;
+    padding: 1% 6%;
+    border: 1px solid ;
+    border-radius: 25px;
+    background-color: coral;
+}
+#guess {
+    color: azure;
+}
+
+#word{
+    margin: 16px 0;
+}
+
+.space-word{
+    margin:32px 0;
+}
+
+.dotted{
+    animation: blink 1s infinite;
+}
+
+.notdotted{
+    animation: none;
+    display: none;
+}
+@keyframes blink {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+}
+
+li {
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+
+@keyframes vibrate {
+    0% { transform: translate(0); }
+    25% { transform: translate(2px, 2px); }
+    50% { transform: translate(0); }
+    75% { transform: translate(-2px, -2px); }
+    100% { transform: translate(0); }
+}
+
+li:active {
+  background-color: rgb(64, 181, 173);
+}
+
+li:hover, li:focus {
+  background-color: rgb(144, 223, 217);
+  color: #000000;
+  opacity: 0.6;
+  animation: vibrate 0.5s linear;
+}
+
+.selected{
+    background-color: rgb(64, 181, 173);
+}
+
+.dropdown{
+    width: 100%;
+    background-color: rgb(64, 181, 173);
+    height: 30px;
+    padding: 0;
+}
+
+.states{
+    width: 100%;
+    height: 100%;
+    background-color: rgb(64, 181, 173);
+    color: #000000;
+    border: none;
+}
+
+.states option {
+    background-color: #FFFFFF;
+    color: #000000;
+    outline: none;
+    border: none;
+}
+
+.states:focus{
+    border: none;
+    outline: none;
+}
+
+.states option:focus, .states option:active {
+    outline: none;
+    border: none;
+  }
+
+.states::after {
+    outline: none;
+    border:none;
+  }
+
