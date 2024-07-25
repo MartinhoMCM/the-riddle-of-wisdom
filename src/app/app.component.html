@@ -30,7 +30,7 @@
                     <div class="card-body">
                         <h5 class="card-title">{{'game' | translate}}</h5>
                         <span id="message">Good, let's mountain this <b>{{selectCategory}}</b> by each letter</span>
-                        <div>
+                        <div class="space-word">
                             <span id="word">{{words}}</span><span id="dotted"[ngClass]="{'dotted':isHuman, 'notdotted':isAi }">⬤</span>
                         </div>
                         <span id="remainingGuess">You have ☼ guesses remaining.</span>

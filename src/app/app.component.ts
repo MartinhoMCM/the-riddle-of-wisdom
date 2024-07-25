@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { fonteWordsEn, fonteWordsPt } from "./data";
 import { FormControl, FormGroup } from '@angular/forms';
+import { DataProcessing } from './data-ai-processing';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,7 @@ export class AppComponent implements OnInit {
   isHuman = false;
   selectCategory = '';
   indexSelected = 0;
-
+  dataProcessing: DataProcessing = new DataProcessing()
   categories = [
     'VOCABULARY',
     'COUNTRIES',
@@ -36,11 +37,12 @@ export class AppComponent implements OnInit {
     {name: 'Português', abbrev: 'pt'},
    
   ];
-  constructor(private translate: TranslateService){
+  constructor(private translate: TranslateService ){
     translate.setDefaultLang('en');
     this.form = new FormGroup({
       state: new FormControl(this.states[0]),
     });
+    
   }
 
   getLanguage(){
@@ -69,7 +71,11 @@ export class AppComponent implements OnInit {
     this.selectCategory = this.categories[0];
     this.isHuman=true;
     const newWord = this.generateWord();
-    this.words = newWord.substring(0,1);
+    this.words = newWord.substring(0,1).toUpperCase();
+    this.dataProcessing.sendMessage(`Categoria: ${this.selectCategory}, língua: pt`).then(value => { 
+      console.log("dataProcessing ", value);
+      
+    });
     
     return this.words.toUpperCase();
   }
@@ -103,11 +109,14 @@ guessedByHuman(){
   }
 }
 
-guessedByIA(){
+async guessedByIA(){
   this.isAi = false;
   this.isHuman = true;
   const newWord = this.generateWord();
-  this.words += newWord.substring(0,1).toUpperCase();
+ // const newWord = await this.dataProcessing.sendMessage(this.words);
+  this.words = newWord;
+  console.log("words ", this.words);
+
 }
 
 selectedCategory(index: number){
