@@ -1,6 +1,6 @@
 # TheRiddleOfWisdom
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.1.
+This project is a game of words with Angular 
 
 ## Development server
 
