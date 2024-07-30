@@ -74,25 +74,34 @@ export class AppComponent implements OnInit {
   }
 
   async InitChar() : Promise<void>{
-    this.selectCategory = this.categories[4];
+    this.selectCategory = this.categories[0];
     const newSeq = await this.dataProcessing.sendMessage(`Categoria: ${this.selectCategory}, língua: ${this.states[0].abbrev}`);  
     
-    this.fonteWords =  this.processedData(newSeq)
+    this.fonteWords = this.processedData(newSeq);
+    
     this.generateWord();
 
   }
 
-  processedData(data: string) : string []{
+  processedData(data: string) : string [] {
     const regex = /\[(.*?)\]/;
     const match = data.match(regex);
-
+    console.log("this.selectCategory  ",this.selectCategory);
+    console.log("data ",data);
+    console.log("data ", JSON.parse(data));
+    
+    
+    if (this.selectCategory === 'MATH_SEQUENCE') {
+      return  JSON.parse(data);
+    }
+    
     if (match) {
       const conteudo = match[1];
       const arrayDeStrings = JSON.parse(`[${conteudo}]`); 
 
       return arrayDeStrings;
     }
-
+ 
     return [];
   }
 
@@ -113,12 +122,24 @@ youWin () {
  public async Initilization(): Promise<void> {
   this.switchLanguage(this.states[0].abbrev);  
   await this.InitChar();  
-  console.log("currentWord ",this.currentWord);
-  
   this.maskedWord = this.maskWord(this.currentWord);
   this.isHuman = true;
   this.displayWord();
 }
+
+ async nextCategory(index : number): Promise<void> {
+
+  const abbrev = this.form.get('state').value.abbrev;
+  
+  console.log(`Categoria: ${this.selectCategory}, língua: ${abbrev}`);
+  
+  const newSeq = await this.dataProcessing.sendMessage(`Categoria: ${this.selectCategory}, língua: ${abbrev}`);  
+  this.fonteWords =  this.processedData(newSeq)
+  this.generateWord();
+  this.maskedWord = this.maskWord(this.currentWord);
+  this.isHuman = true;
+  this.displayWord();
+ }
 
 public startGame(){
    if (this.guessChar) {
@@ -129,6 +150,7 @@ public startGame(){
 selectedCategory(index: number){
    this.selectCategory = this.categories[index];
    this.indexSelected = index; 
+   this.nextCategory(index);
 }
 
 removeSpaces(input: string): string {
@@ -138,26 +160,35 @@ removeSpaces(input: string): string {
 generateWord(){
   if (this.fonteWords.length > 0) {
     const word = this.fonteWords[Math.floor(Math.random()*this.fonteWords.length)];
-    this.currentWord = word.toUpperCase();
-    this.guessedWord = this.currentWord.substring(0,1);   
-  }
+    if (this.selectCategory !== 'MATH_SEQUENCE'){
+      this.currentWord = word.toUpperCase();
+      this.guessedWord = this.currentWord.substring(0,1);  
+    } else if(this.selectCategory === 'MATH_SEQUENCE') {
+     this.clearAll();
+      this.fonteWords.forEach(value => {
+        this.currentWord += value;
+        this.guessedWord = this.currentWord.substring(0,1);  
+      });
+    }
+    
+  }  
+}
+
+clearAll(){
+  this.currentWord = '';
+  this.guessedWord  = '';
 }
 
 private maskWord(word: string): string {
   if (word.length < 2) return word;
+  if (word.length > 5) {
+    const middleIndex = Math.floor(word.length / 2);
+    return word[0] + "■".repeat(middleIndex - 1) + word[middleIndex] + "■".repeat(word.length - middleIndex - 2) + word[word.length - 1];
+  }
   return word[0] + "■".repeat(word.length - 2) + word[word.length - 1];
 }
 
-private revealLetter(letter: string): boolean {
-  this.guessedWord += ""+letter;
-  console.log("guessedWord ", this.guessedWord);
-  
-  return  this.currentWord.includes(this.guessedWord);
-}
 
-public displayWord(): void {
-  console.log(this.maskedWord);
-}
 
 public userGuess(letter: string): void {
   if (this.isHuman) {
@@ -165,43 +196,33 @@ public userGuess(letter: string): void {
     if (contains) {
       this.displayWord();
     } else {
-      console.log("errado, insira outro caracter");
-      
+      console.log("Errado, insira outro caractere");
     }
-  
-    // if (this.maskedWord === this.currentWord) {
-    //   console.log('Parabéns! Você completou a palavra.');
-    // } else {
-    //   console.log('Agora é a vez do computador.');
-    //   this.isHuman = false;
-    //   this.computerGuess();
-    // }
   } else {
     console.log('Não é sua vez.');
   }
- this.guessChar='';
+  this.guessChar = '';
 }
 
-private computerGuess(): void {
-  if (!this.isHuman) {
-    const letter = this.getRandomLetter();
-    console.log(`Computador adivinhou: ${letter}`);
-    this.revealLetter(letter);
-    this.displayWord();
-    if (this.maskedWord === this.currentWord) {
-      console.log('Computador completou a palavra.');
-    } else {
-      this.isHuman = true;
-      console.log('Agora é a vez do usuário.');
+private revealLetter(letter: string): boolean {
+  for (let i = 0; i < this.currentWord.length; i++) {
+    if (this.currentWord[i] === letter && this.maskedWord[i] === '■') {
+      this.maskedWord = this.maskedWord.substring(0, i) + letter + this.maskedWord.substring(i + 1);
+      return true;
     }
   }
+  return false;
 }
 
-private getRandomLetter(): string {
-  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  return alphabet[Math.floor(Math.random() * alphabet.length)];
+public displayWord(): void {
+  if (this.maskedWord === this.currentWord) {
+    console.log("Ganhaste!");
+    
+  } else {
+    console.log("Próximo!");
+  }
+  
 }
-
 
 
 }
