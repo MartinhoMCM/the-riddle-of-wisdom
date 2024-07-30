@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { fonteWordsEn, fonteWordsPt } from "./data";
 import { FormControl, FormGroup } from '@angular/forms';
-import { DataProcessing } from './data-ai-processing';
+import { ChatService } from './data-ai-processing';
 
 @Component({
   selector: 'app-root',
@@ -10,17 +9,16 @@ import { DataProcessing } from './data-ai-processing';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  
 
   title = 'the-riddle-of-wisdom';
-  words : string = '';
+  words ="";
   chances = 8;
   guessChar = '';
   isAi = false;
   isHuman = false;
   selectCategory = '';
   indexSelected = 0;
-  dataProcessing: DataProcessing = new DataProcessing()
+  geminiIsProcessing = false;
   categories = [
     'VOCABULARY',
     'COUNTRIES',
@@ -31,18 +29,31 @@ export class AppComponent implements OnInit {
     'MOVIE_TITLES'
   ];
 
+  totalWords = 0;
+  completedWords = 0;
+  currentWord = '';
+  guessedWord = '';
+
   form : FormGroup;
   states = [
     {name: 'English', abbrev: 'en'},
     {name: 'Português', abbrev: 'pt'},
    
   ];
-  constructor(private translate: TranslateService ){
-    translate.setDefaultLang('en');
+
+  currentLang : string='en'
+
+  fonteWordsEn = [];
+  fonteWordsPt = [];
+  fonteWords : string [] = [];
+
+  maskedWord: string;
+
+  constructor(private translate: TranslateService, private dataProcessing: ChatService ){
+    translate.setDefaultLang('pt');
     this.form = new FormGroup({
       state: new FormControl(this.states[0]),
     });
-    
   }
 
   getLanguage(){
@@ -51,7 +62,6 @@ export class AppComponent implements OnInit {
         this.switchLanguage(value.abbrev);
       }
     });
-    
   }
 
   switchLanguage(language: string) {
@@ -59,25 +69,31 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.words = this.InitChar();
     this.getLanguage();
+    this.Initilization();
   }
 
-  generateWord() : string{
-    return fonteWordsEn[Math.floor(Math.random()*fonteWordsEn.length)];
-  }
-
-  InitChar() : string{
-    this.selectCategory = this.categories[0];
-    this.isHuman=true;
-    const newWord = this.generateWord();
-    this.words = newWord.substring(0,1).toUpperCase();
-    this.dataProcessing.sendMessage(`Categoria: ${this.selectCategory}, língua: pt`).then(value => { 
-      console.log("dataProcessing ", value);
-      
-    });
+  async InitChar() : Promise<void>{
+    this.selectCategory = this.categories[4];
+    const newSeq = await this.dataProcessing.sendMessage(`Categoria: ${this.selectCategory}, língua: ${this.states[0].abbrev}`);  
     
-    return this.words.toUpperCase();
+    this.fonteWords =  this.processedData(newSeq)
+    this.generateWord();
+
+  }
+
+  processedData(data: string) : string []{
+    const regex = /\[(.*?)\]/;
+    const match = data.match(regex);
+
+    if (match) {
+      const conteudo = match[1];
+      const arrayDeStrings = JSON.parse(`[${conteudo}]`); 
+
+      return arrayDeStrings;
+    }
+
+    return [];
   }
 
 
@@ -94,34 +110,98 @@ youWin () {
 }
 
 
-startGame(){
-  this.guessedByHuman();
-  this.guessedByIA();
-}
-
-guessedByHuman(){
-  this.guessChar = this.guessChar.trim();
-  if (this.guessChar.length === 1){
-    this.isHuman = false;
-    this.isAi = true;
-    this.words += this.guessChar.toUpperCase();
-    this.guessChar = '';
-  }
-}
-
-async guessedByIA(){
-  this.isAi = false;
+ public async Initilization(): Promise<void> {
+  this.switchLanguage(this.states[0].abbrev);  
+  await this.InitChar();  
+  console.log("currentWord ",this.currentWord);
+  
+  this.maskedWord = this.maskWord(this.currentWord);
   this.isHuman = true;
-  const newWord = this.generateWord();
- // const newWord = await this.dataProcessing.sendMessage(this.words);
-  this.words = newWord;
-  console.log("words ", this.words);
+  this.displayWord();
+}
 
+public startGame(){
+   if (this.guessChar) {
+    this.userGuess(this.guessChar);
+   }
 }
 
 selectedCategory(index: number){
    this.selectCategory = this.categories[index];
    this.indexSelected = index; 
 }
+
+removeSpaces(input: string): string {
+  return input.replace(/\s+/g, '');
+}
+
+generateWord(){
+  if (this.fonteWords.length > 0) {
+    const word = this.fonteWords[Math.floor(Math.random()*this.fonteWords.length)];
+    this.currentWord = word.toUpperCase();
+    this.guessedWord = this.currentWord.substring(0,1);   
+  }
+}
+
+private maskWord(word: string): string {
+  if (word.length < 2) return word;
+  return word[0] + "■".repeat(word.length - 2) + word[word.length - 1];
+}
+
+private revealLetter(letter: string): boolean {
+  this.guessedWord += ""+letter;
+  console.log("guessedWord ", this.guessedWord);
+  
+  return  this.currentWord.includes(this.guessedWord);
+}
+
+public displayWord(): void {
+  console.log(this.maskedWord);
+}
+
+public userGuess(letter: string): void {
+  if (this.isHuman) {
+    const contains = this.revealLetter(letter);
+    if (contains) {
+      this.displayWord();
+    } else {
+      console.log("errado, insira outro caracter");
+      
+    }
+  
+    // if (this.maskedWord === this.currentWord) {
+    //   console.log('Parabéns! Você completou a palavra.');
+    // } else {
+    //   console.log('Agora é a vez do computador.');
+    //   this.isHuman = false;
+    //   this.computerGuess();
+    // }
+  } else {
+    console.log('Não é sua vez.');
+  }
+ this.guessChar='';
+}
+
+private computerGuess(): void {
+  if (!this.isHuman) {
+    const letter = this.getRandomLetter();
+    console.log(`Computador adivinhou: ${letter}`);
+    this.revealLetter(letter);
+    this.displayWord();
+    if (this.maskedWord === this.currentWord) {
+      console.log('Computador completou a palavra.');
+    } else {
+      this.isHuman = true;
+      console.log('Agora é a vez do usuário.');
+    }
+  }
+}
+
+private getRandomLetter(): string {
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  return alphabet[Math.floor(Math.random() * alphabet.length)];
+}
+
+
 
 }

@@ -17,7 +17,7 @@
                     <div class="dropdown">
                         <form  [formGroup]="form">
                             <select class="states" formControlName="state">
-                                <option *ngFor="let state of states" [ngValue]="state" >
+                                <option *ngFor="let state of states" [ngValue]="state" (click)="switchLanguage(state.abbrev)">
                                     {{ state.name }}
                                   </option>
                             </select>                            
@@ -31,7 +31,8 @@
                         <h5 class="card-title">{{'game' | translate}}</h5>
                         <span id="message">Good, let's mountain this <b>{{selectCategory}}</b> by each letter</span>
                         <div class="space-word">
-                            <span id="word">{{words}}</span><span id="dotted"[ngClass]="{'dotted':isHuman, 'notdotted':isAi }">⬤</span>
+                            <span id="word">{{maskedWord | uppercase}}</span>
+                            <!-- <span id="dotted"[ngClass]="{'dotted':isHuman, 'notdotted':isAi }">■</span> -->
                         </div>
                         <span id="remainingGuess">You have ☼ guesses remaining.</span>
                         <div id="guessedBuilt"> </div>

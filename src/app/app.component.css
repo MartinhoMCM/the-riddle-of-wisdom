@@ -46,6 +46,13 @@ em {
     font-size: 150%;
     font-weight: 700;
 }
+
+#dotted{
+    height: 30px;
+    width: 30px;
+    background-color:rgb(64, 181, 173);
+}
+
 input[type="button"] {
     margin-top: 8px;
     padding: 1% 6%;
@@ -67,6 +74,9 @@ input[type="button"] {
 
 .dotted{
     animation: blink 1s infinite;
+    height: 30px;
+    width: 30px;
+    background-color:rgb(64, 181, 173);
 }
 
 .notdotted{
