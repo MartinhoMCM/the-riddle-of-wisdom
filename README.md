@@ -1,6 +1,6 @@
 # TheRiddleOfWisdom
 
-This project is a game of words with Angular 
+This project is a game of words with Angular and Gemini API
 
 ## Development server
 
