@@ -92,8 +92,6 @@ export class AppComponent implements OnInit {
   processedData(data: string): string[] {
     const regex = /\[(.*?)\]/;
     const match = data.match(regex);
-    console.log("data ", JSON.parse(data));
-
     if (this.selectCategory === 'MATH_SEQUENCE') {
       return JSON.parse(data);
     }
