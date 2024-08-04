@@ -12,6 +12,7 @@
     "messageWin":"Congratulations, You Win",
     "messageLose":"Opps, You Lose!",
     "enter":"Enter!",
+    "re_start":"Restart",
     "restart":"Do You Want To Restart ?",
     "remaining":"guesses remaining"
 }

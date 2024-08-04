@@ -12,6 +12,7 @@
   "messageWin": "Congratulations, You Win",
   "messageLose": "Opps, Perdeste",
   "enter": "Entre!",
+  "re_start":"Recomeçar",
   "restart": "Queres Recomeçar?",
   "remaining":"tentativas restantes"
 }

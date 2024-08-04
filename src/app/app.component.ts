@@ -71,6 +71,7 @@ export class AppComponent implements OnInit {
 
   switchLanguage(language: string) {
     this.translate.use(language);
+    this.restartGame();
   }
 
   ngOnInit(): void {
