@@ -19,7 +19,6 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
               "src/assets"
             ],
             "styles": [
@@ -62,7 +61,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "buildTarget": "the-riddle-of-wisdom:build"
+            "buildTarget": "the-riddle-of-wisdom:build",
+            "proxyConfig": "proxy.conf.json"
           },
           "configurations": {
             "production": {
@@ -88,7 +88,6 @@
             ],
             "scripts": [],
             "assets": [
-              "src/favicon.ico",
               "src/assets"
             ]
           }

@@ -1,0 +1,22 @@
+{
+    "/api": {
+        "target": "https://generativelanguage.googleapis.com",
+        "secure": false
+    },
+    "/fonts": {
+        "target": "https://fonts.googleapis.com",
+        "secure": true,
+        "changeOrigin": true,
+        "pathRewrite": {
+          "^/fonts": ""
+        }
+      },
+    "/gstatic-fonts": {
+    "target": "https://fonts.gstatic.com",
+    "secure": true,
+    "changeOrigin": true,
+    "pathRewrite": {
+        "^/gstatic-fonts": ""
+    }
+    }
+}
