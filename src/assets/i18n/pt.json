@@ -1,10 +1,17 @@
 {
-  "game":"Jogo",
+  "game": "Jogo",
   "VOCABULARY": "Vocabulário",
   "COUNTRIES": "Países",
   "CITIES": "Cidades",
   "MATH_SEQUENCE": "Sequência Matemática",
   "FOOTBALL_CLUBS": "Clubes de Futebol",
   "CELEBRITIES": "Celebridades",
-  "MOVIE_TITLES": "Títulos de Filmes"
+  "MOVIE_TITLES": "Títulos de Filmes",
+  "of": "de",
+  "message": "Boas, vamos formar uma palavra, letra por letra!",
+  "messageWin": "Congratulations, You Win",
+  "messageLose": "Opps, Perdeste",
+  "enter": "Entre!",
+  "restart": "Queres Recomeçar?",
+  "remaining":"tentativas restantes"
 }

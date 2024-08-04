@@ -6,5 +6,12 @@
     "MATH_SEQUENCE": "Math Sequence",
     "FOOTBALL_CLUBS": "Football Clubs",
     "CELEBRITIES": "Celebrities",
-    "MOVIE_TITLES": "Movie Titles"
+    "MOVIE_TITLES": "Movie Titles",
+    "of":"of",
+    "message":"Good, let's mount this WORD letter by letter!",
+    "messageWin":"Congratulations, You Win",
+    "messageLose":"Opps, You Lose!",
+    "enter":"Enter!",
+    "restart":"Do You Want To Restart ?",
+    "remaining":"guesses remaining"
 }

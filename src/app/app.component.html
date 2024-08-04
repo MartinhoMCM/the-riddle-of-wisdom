@@ -1,5 +1,5 @@
 <div class="main container mt-4">
-  <div id="heading" class="m-4"><h1>THE RIDDLE <em>OF</em> WISDOM</h1></div>
+  <div id="heading" class="m-4"><h1>THE RIDDLE <em>OF </em> WISDOM</h1></div>
   <div id="word"></div>
     <div class="container mt-4">
         <div class="row">
@@ -28,13 +28,16 @@
             <div class="col-md-9">
                 <div class="card game-card">
                     <div class="card-body">
-                        <h5 class="card-title">{{'game' | translate}}</h5>
-                        <span id="message">Good, let's mountain this <b>{{selectCategory}}</b> by each letter</span>
+                        <h5 class="card-title"><span>{{'game' | translate}}</span><span> {{'of' | translate}}</span><span> <b> {{selectCategory | translate}}</b></span></h5>
+                        <span id="message" *ngIf="!isWin && !isLose">{{'message' | translate}}</span>
+                        <span id="messageWin" *ngIf="isWin && !isLose">{{'messageWin' | translate}}</span>
+                        <span  id="messageLose" *ngIf="isLose && !isWin">{{'messageLose' | translate}}</span>
                         <div class="space-word">
-                            <span id="word">{{maskedWord | uppercase}}</span>
+                            <span *ngIf="!reloading" id="word" >{{maskedWord | uppercase}}</span>
+                            <img *ngIf="reloading" id="reload" src="../assets/reload.gif">
                             <!-- <span id="dotted"[ngClass]="{'dotted':isHuman, 'notdotted':isAi }">■</span> -->
                         </div>
-                        <span id="remainingGuess">You have ☼ guesses remaining.</span>
+                        <div *ngIf="numberOfTrying>0" class="remainingGuess"><span style="color: brown;">{{totalGuesses-numberOfTrying}} </span><span style="color: brown;">{{'remaining' | translate}}</span></div>
                         <div id="guessedBuilt"> </div>
                         <span id="onx">Type one character, only</span>
                         <form action="guessChar">
@@ -42,12 +45,19 @@
                             <input id="input" type="text" minlength="1" maxlength="1" [(ngModel)]="guessChar" required >
                            </div>
                            <div>
-                            <input id="guess" type="button" class="btnx bg-lightx" [disabled]="guessChar.length===0" value="Entre!" (click)="startGame()">
+                            <input id="guess" type="button" class="btnx bg-lightx" [disabled]="guessChar.length===0 || (isWin || isLose)" [value]="'enter' | translate" (click)="startGame()">
                            </div>
-                        </form>
-                        
+                        </form>         
                     </div>
-                </div>
+                </div>      
+            <div class="resetCard card p-4 ms-5x me-5x d-flex flex-column justify-content-between" *ngIf="isWin && !isLose">
+                <h4 class="m-4">{{'restart' | translate}}</h4>
+                <input id="restart" type="button" class="btnx bg-lightx" [value]="'enter' | translate" (click)="restartGame()">
+            </div>
+            <div class="card p-4 ms-5x me-5x d-flex flex-column justify-content-between" *ngIf="isLose && !isWin">
+                <h4 class="m-4">{{'restart' | translate}}</h4>
+                <input id="restart" type="button" class="btnx bg-lightx" [value]="'enter' | translate" (click)="restartGame()">
+            </div>
             </div>
         </div>
     </div>

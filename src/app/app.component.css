@@ -25,13 +25,17 @@ em {
     font-family: "Dancing Script", cursive;
     font-weight: 700;
 }
-#message, #remainingGuess {
+#message, .remainingGuess, #messageWin,  #messageLose{
     font-size: 105%;
 }
 
-#remainingGuess{
+.messageLose{
+    color: red;
+}
+
+.remainingGuess{
     margin-top: 16px;
-    display: none;
+    color: firebrick;
 }
 
 #input {
@@ -157,3 +161,28 @@ li:hover, li:focus {
     border:none;
   }
 
+.resetCard {
+    display: block;
+    border-radius: 24px;
+    background-image: url(../assets/confetti.gif); 
+    background-size: cover; 
+    min-width: 60%;
+}
+
+
+.restart {
+    color: #FFFFFF;
+    font-size: 150%;
+    font-weight: 700;
+    border: none;
+}
+
+#reload {
+    background-image: url(../assets/reload.gif); 
+    background-size: cover; 
+    min-width: 60px;
+    min-width: 60px;
+    min-height: 60px;
+    max-width: 60px;
+    max-height: 60px;
+}
