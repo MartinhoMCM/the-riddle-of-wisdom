@@ -191,6 +191,9 @@ li:hover, li:focus {
 }
 
 @media only screen and (min-width: 1517px) and (max-width: 1518px){
+    h1 {
+        font-size: 32px;
+    }
     .main {
         width: 130vmin;
         height: 100vh;
