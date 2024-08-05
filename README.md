@@ -1,4 +1,4 @@
-# TheRiddleOfWisdom
+# The Riddle Of Wisdom
 Test your vocabulary and deduction skills as you fill in the missing.
 This project is a game of words with Angular and Gemini API
 
