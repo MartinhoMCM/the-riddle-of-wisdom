@@ -14,5 +14,6 @@
   "enter": "Entre!",
   "re_start":"Recomeçar",
   "restart": "Queres Recomeçar?",
-  "remaining":"tentativas restantes"
+  "remaining":"tentativas restantes",
+   "key_word":"Palavra-chave"
 }

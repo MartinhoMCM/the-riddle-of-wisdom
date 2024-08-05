@@ -1,7 +1,7 @@
 <div class="main container mt-4">
   <div id="heading" class="m-4"><h1>THE RIDDLE <em>OF </em> WISDOM</h1></div>
   <div id="word"></div>
-    <div class="container mt-4">
+    <div id="card-content" class="container mt-4">
         <div class="row">
             <div class="col-md-3">
                 <div class="card menu-card">
@@ -37,7 +37,7 @@
                             <img *ngIf="reloading" id="reload" src="../assets/reload.gif">
                             <!-- <span id="dotted"[ngClass]="{'dotted':isHuman, 'notdotted':isAi }">■</span> -->
                         </div>
-                        <div *ngIf="numberOfTrying>0" class="remainingGuess"><span style="color: brown;">{{totalGuesses-numberOfTrying}} </span><span style="color: brown;">{{'remaining' | translate}}</span></div>
+                        <div *ngIf="numberOfTrying>0" class="remainingGuess"><span style="color: brown;">{{totalGuesses-numberOfTrying}} </span><span style="color: brown;">{{'remaining' | translate}}.</span> <span *ngIf="tryExceeded()"> {{'key_word' | translate}} : {{currentWord}}</span></div>
                         <div id="guessedBuilt"> </div>
                         <span id="onx">Type one character, only</span>
                         <form action="guessChar">
@@ -51,11 +51,11 @@
                     </div>
                 </div>      
             <div class="resetCard card p-4 ms-5x me-5x d-flex flex-column justify-content-between" *ngIf="isWin && !isLose">
-                <h4 class="m-4">{{'restart' | translate}}</h4>
+                <h4 class="m-4 restart-text">{{'restart' | translate}}</h4>
                 <input id="restart" type="button" class="btnx bg-lightx" [value]="'re_start' | translate" (click)="restartGame()">
             </div>
-            <div class="card p-4 ms-5x me-5x d-flex flex-column justify-content-between" *ngIf="isLose && !isWin">
-                <h4 class="m-4">{{'restart' | translate}}</h4>
+            <div class="resetCardLose card p-4 ms-5x me-5x d-flex flex-column justify-content-between" *ngIf="isLose && !isWin">
+                <h4 class="m-4 restart-text">{{'restart' | translate}}</h4>
                 <input id="restart" type="button" class="btnx bg-lightx" [value]="'re_start' | translate" (click)="restartGame()">
             </div>
             </div>

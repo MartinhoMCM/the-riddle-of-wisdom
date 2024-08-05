@@ -14,5 +14,6 @@
     "enter":"Enter!",
     "re_start":"Restart",
     "restart":"Do You Want To Restart ?",
-    "remaining":"guesses remaining"
+    "remaining":"guesses remaining",
+    "key_word":"Key word"
 }

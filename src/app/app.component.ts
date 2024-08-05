@@ -76,6 +76,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.getLanguage();
+    this.reset();
     this.Initilization();
   }
 
@@ -120,7 +121,7 @@ export class AppComponent implements OnInit {
 
 
   public async Initilization(): Promise<void> {
-    this.switchLanguage(this.states[0].abbrev);
+    this.translate.use(this.states[0].abbrev);
     await this.InitChar();
     this.maskedWord = this.maskWord(this.currentWord);
     this.isHuman = true;
@@ -182,6 +183,7 @@ export class AppComponent implements OnInit {
     }
   }
 
+
   clearAll() {
     this.currentWord = '';
     this.guessedWord = '';
@@ -238,6 +240,10 @@ export class AppComponent implements OnInit {
       this.isWin = true;
       this.isLose = false;
     }
+  }
+
+  tryExceeded(): boolean{
+   return (this.totalGuesses-this.numberOfTrying) === 0;
   }
 
 }
